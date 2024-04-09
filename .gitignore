@@ -164,6 +164,6 @@ install_manifest.txt
 __pycache__
 .DS_Store
 *~
-
+*.env
 # === Rules for C++ development ===
 compile_commands.json

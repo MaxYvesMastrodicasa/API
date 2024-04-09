@@ -1,47 +1,24 @@
 import express, { response } from "express";
+import { mockCars } from "../data/mock.js";
+import { getCar,getCars,createCar,udpateCar,deleteCar } from "../cotroller/mock.js";
 
 const router = express.Router();
 
-const mockCars = [
-    { id: 1, brand: "Audi", model: "A3" },
-    { id: 2, brand: "Renault", model: "Clio" },
-    { id: 3, brand: "Peugeot", model: "208" },
-    { id: 4, brand: "BMW", model: "Serie 1" },
-    { id: 5, brand: "Mercedes", model: "Classe A" },
-    { id: 6, brand: "Citroen", model: "C3" },
-    { id: 7, brand: "Ford", model: "Fiesta" },
-    { id: 8, brand: "Opel", model: "Corsa" },
-    { id: 9, brand: "Toyota", model: "Yaris" },
-    { id: 10, brand: "Volkswagen", model: "Polo" },
-  ];
+// GET http://localhost:3001/cars
+router.get("/", getCars);
 
-  router.get("/", (req,res)=>{
-    res.json(mockCars);
-  });
+// GET http://localhost:3001/cars/1
+router.get("/:id", getCar);
 
-  router.get("/:id", (req,res)=>{
-    const id = parseInt(req.params.id, 10);
-    // console.log(id);
-    if (isNaN(id)) {
-        res.status(400).json({ message: "Invalid ID" })
-    };
-    const car = mockCars.find(car=>car.id === id);
-    if (car){
-        res.json(car);
-    }
-    else{
-        res.status(404).json({ message: "Car not found"});
-    }
-  });
+// POST http://localhost:3001/cars
+router.post("/", createCar);
 
+// PUT http://localhost:3001/cars/1 creer une route qui
+// permet de modiier une voiture
+router.put("/:id", udpateCar);
 
-  //POST
-  router.post("/", (req, res)=>{
-    const bodyContent = req.body;
-    const id = mockCars.length +1;
-    const newCar = {id, ...bodyContent};
-    mockCars.push(newCar);
-    res.status(201).json(newCar);
-  });
+// DELETE http://localhost:3001/cars/1 creer une route qui
+// permet de supprimer une voiture
+router.delete("/:id", deleteCar);
 
-  export default router;
+export default router;
