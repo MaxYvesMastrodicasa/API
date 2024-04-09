@@ -14,6 +14,10 @@ export const getCars = (req, res) => {
     });
 };
 
+export const getError = ()=>{
+  throw new Error("This is an erreur");
+};
+
 export const getCar = (req, res) => {
   const id = req.params.id;
   Car.findById(id)

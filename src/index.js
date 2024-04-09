@@ -1,7 +1,10 @@
 import "dotenv/config";
 import express from "express";
 import carsRoutes from "./routes/carRoutes.js";
+import authRoutes from "./routes/auth.js";
 import mongoose from "mongoose";
+import { handleUncaughtErrors } from "./middlewares/error.js";
+import isAuth from "./middlewares/auth.js";
 
 const app = express();
 const portCom = process.env.PORT || 9000;
@@ -17,7 +20,19 @@ app.get("/", (req, res) => {
 
 // Middlewares
 app.use(express.json());
-app.use("/cars", carsRoutes);
+app.use("/cars", isAuth, carsRoutes);
+app.use("/auth", authRoutes);
+
+//
+app.use("/error", (req, res) => {
+  try {
+    //
+    throw new Error("This is an error");
+  } catch (error) {}
+});
+
+// Middleware pour gerer les erreurs
+app.use(handleUncaughtErrors);
 
 mongoose.connect(MONGO_STRING).then(()=> {
   // console.log("Connected to the database !");

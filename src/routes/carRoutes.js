@@ -1,6 +1,6 @@
 import express, { response } from "express";
 import { mockCars } from "../data/mock.js";
-import { getCar,getCars,createCar,udpateCar,deleteCar } from "../cotroller/cars.js";
+import { getCar,getCars,createCar,udpateCar,deleteCar } from "../controller/cars.js";
 import { body } from "express-validator";
 
 const router = express.Router();
