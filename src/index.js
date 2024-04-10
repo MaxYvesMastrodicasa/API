@@ -1,6 +1,6 @@
 import "dotenv/config";
 import express from "express";
-import carsRoutes from "./routes/carRoutes.js";
+import objectsRoutes from "./routes/penne.js";
 import authRoutes from "./routes/auth.js";
 import mongoose from "mongoose";
 import { handleUncaughtErrors } from "./middlewares/error.js";
@@ -20,13 +20,16 @@ app.get("/", (req, res) => {
 
 // Middlewares
 app.use(express.json());
-app.use("/cars", isAuth, carsRoutes);
+app.use("/penne",isAuth, objectsRoutes);
 app.use("/auth", authRoutes);
 
 //
+app.use((err,req,res,next)=>{
+  res.status(500).json({error: err.message});
+});
+
 app.use("/error", (req, res) => {
   try {
-    //
     throw new Error("This is an error");
   } catch (error) {}
 });
